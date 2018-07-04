@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2018 PS-L. All rights reserved.
+ */
+
+package scalar.command
+
+import scalar.filesystem.State
+
+/**
+  * all command are saved here.
+  */
+
+trait Command {
+
+   def apply(state: State): State
+}
+                     
+object Command {
+
+  val MKDIR = "mkdir"
+
+  def emptyCommand: Command = new Command {
+    override def apply(state: State): State = state
+  }
+
+  def incompleteCommand(name: String): Command = new Command {
+    override def apply(state: State): State =
+      state.setMessage(name + ": incomplete command")
+  }
+
+  def from(input: String): Command = {
+     val tokens: Array[String] = input.split(" ")
+
+     if (input.isEmpty || tokens.isEmpty) emptyCommand
+     else if (MKDIR.equals(tokens(0))) {
+       if (tokens.length < 2) incompleteCommand(MKDIR)
+       else new Mkdir(tokens(1))
+     }
+     else  new UnknownCommands
+  }
+
+}
