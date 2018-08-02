@@ -1,5 +1,5 @@
 /**
-* first class lazy value solve implicit recursive problems:
+* first class lazy value solves implicit recursive problems:
 * 1. at value level, recursive type class instances would have to be constructed
 * lazily, but Scala does not support lazy implicit arguments.
 * 2. at type level, during type checking of expression constructing recursive
