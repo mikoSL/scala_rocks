@@ -1,26 +1,27 @@
+/* Bob is a lackadaisical teenager. In conversation, his responses are very limited.
+
+Bob answers 'Sure.' if you ask him a question.
+
+He answers 'Whoa, chill out!' if you yell at him.
+
+He answers 'Calm down, I know what I'm doing!' if you yell a question at him.
+
+He says 'Fine. Be that way!' if you address him without actually saying anything.
+
+He answers 'Whatever.' to anything else.
+*/
+
 object Bob {
-  def isAllUppercase(question: String): Boolean = {
-   val capitalLetters = 'A' to 'Z'
-   val lowLetters = 'a' to 'z'
-   val questionOnlyCapLetter = question.filter{x => capitalLetters.exists(_ == x)}
-   val questionLowerLetter = question.filter{x => lowLetters.exists(_ == x)}
 
-   var i = 0
-   for (c <- questionOnlyCapLetter if c.isUpper) yield i += 1
-
-   return (i == questionOnlyCapLetter.length + questionLowerLetter.length &&
-   (questionOnlyCapLetter.length + questionLowerLetter.length) > 0)
-   }
-
-  def endWithQuestion(question: String): Boolean = {
-   question.filterNot((x: Char) => x.isWhitespace).last == '?'
-  }
-
-  def response(statement: String): String = statement match {
-   case silence if silence.trim.isEmpty  => "Fine. Be that way!"
-   case question if endWithQuestion(question) && !isAllUppercase(question) => "Sure."
-   case shouting if isAllUppercase(shouting) && !endWithQuestion(shouting) => "Whoa, chill out!"
-   case angryQuestion if isAllUppercase(angryQuestion) && endWithQuestion(angryQuestion) => "Calm down, I know what I'm doing!"
+  def response(statement: String): String = statement.trim match {
+   case silence if silence.isEmpty  => "Fine. Be that way!"
+   case question if question.endsWith("?") && !isAllUppercase(question) => "Sure."
+   case shouting if isAllUppercase(shouting) && !shouting.endsWith("?") => "Whoa, chill out!"
+   case angryQuestion if isAllUppercase(angryQuestion) && angryQuestion.endsWith("?") => "Calm down, I know what I'm doing!"
    case _ => "Whatever."
   }
+
+  def isAllUppercase(question: String): Boolean = {
+   question.exists(_.isLetter) && question.toUpperCase == question
+   }
 }
