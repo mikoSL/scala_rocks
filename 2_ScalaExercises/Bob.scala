@@ -16,8 +16,10 @@ object Bob {
   def response(statement: String): String = statement.trim match {
    case silence if silence.isEmpty  => "Fine. Be that way!"
    case question if question.endsWith("?") && !isAllUppercase(question) => "Sure."
-   case shouting if isAllUppercase(shouting) && !shouting.endsWith("?") => "Whoa, chill out!"
-   case angryQuestion if isAllUppercase(angryQuestion) && angryQuestion.endsWith("?") => "Calm down, I know what I'm doing!"
+   case shouting if isAllUppercase(shouting) => {
+    if (shouting.endsWith("?"))  "Calm down, I know what I'm doing!"
+    else "Whoa, chill out!"
+    }
    case _ => "Whatever."
   }
 
