@@ -12,18 +12,17 @@ He answers 'Whatever.' to anything else.
 */
 
 object Bob {
+  def isAllUppercase(question: String): Boolean = {
+   question.exists(_.isLetter) && question.toUpperCase == question
+   }
 
   def response(statement: String): String = statement.trim match {
    case silence if silence.isEmpty  => "Fine. Be that way!"
-   case question if question.endsWith("?") && !isAllUppercase(question) => "Sure."
    case shouting if isAllUppercase(shouting) => {
     if (shouting.endsWith("?"))  "Calm down, I know what I'm doing!"
     else "Whoa, chill out!"
     }
+   case question if question.endsWith("?")  => "Sure."
    case _ => "Whatever."
   }
-
-  def isAllUppercase(question: String): Boolean = {
-   question.exists(_.isLetter) && question.toUpperCase == question
-   }
 }
